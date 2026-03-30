@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Generator 2026</title>
+   
+    <!-- TAREA 1: Favicon en formato SVG embebido -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 17 10 11 4 5'/%3E%3Cline x1='12' y1='19' x2='20' y2='19'/%3E%3C/svg%3E">
+   
+    <!-- Tailwind CSS (CDN para versión estática) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+   
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+   
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans:['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+        }
+        ::selection {
+            background-color: rgba(16, 185, 129, 0.3);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+       
+        /* Utilidades para ocultar elementos */
+        .hidden { display: none !important; }
+
+        /* Placeholder más visible en dark mode */
+        ::placeholder {
+            color: #a3a3a3 !important; 
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased selection:bg-emerald-500/30">
+    <!-- Header -->
+    <header class="border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-emerald-500 rounded flex items-center justify-center text-neutral-900 font-bold">
+                    <i data-lucide="terminal" class="w-4 h-4"></i>
+                </div>
+                <h1 class="text-xl font-semibold tracking-tight">
+                    Prompt Generator <span class="text-emerald-500">2026</span>
+                </h1>
+            </div>
+            <div class="hidden sm:block text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                Versión Estática (Sin Node.js)
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-73px)] relative">
+       
+        <!-- Left Panel: Controls -->
+        <div class="p-6 sm:p-8 border-r border-neutral-800 overflow-y-auto lg:max-h-[calc(100vh-73px)]">
+            <div class="space-y-6">
+               
+                <!-- Section: Role - TAREA 3: Fondo sutil -->
+                <section class="p-6 rounded-2xl bg-neutral-900/30 border border-neutral-800/50 transition-colors hover:border-emerald-500/20">
+                    <h2 class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Rol del Modelo
+                        <!-- TAREA 2: Tooltip contextual -->
+                        <div class="relative group flex items-center ml-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-neutral-500 cursor-help hover:text-emerald-400 transition-colors"></i>
+                            <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                <p class="font-semibold text-emerald-400 mb-1">Buenas prácticas:</p>
+                                <p class="mb-2 text-neutral-300">Define la antigüedad, la especialidad técnica y el enfoque del modelo para condicionar de forma precisa su estilo y nivel de detalle.</p>
+                                <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Arquitecto de software senior en Python, purista de SOLID.</p>
+                            </div>
+                        </div>
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Parent Category -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <label class="block text-[11px] text-neutral-500 uppercase font-medium">Rol</label>
+                                <div class="flex gap-1">
+                                    <button id="btnDelParent" onclick="deleteParentCategory()" class="hidden p-1 text-neutral-200 hover:text-red-400 transition-colors" title="Eliminar categoría">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="toggleAddParent()" class="p-1 text-neutral-200 hover:text-emerald-400 transition-colors" title="Agregar categoría al sistema">
+                                        <i id="iconAddParent" data-lucide="plus" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                           
+                            <div id="parentInputContainer" class="hidden flex gap-2">
+                                <input id="newParentLabel" onkeydown="if(event.key==='Enter') addParentCategory()" placeholder="Nuevo rol..." class="flex-1 bg-neutral-950/50 border border-emerald-500/30 rounded-lg px-3 py-2 text-sm focus:outline-none">
+                                <button onclick="addParentCategory()" class="p-2 bg-emerald-500 text-neutral-950 rounded-lg hover:bg-emerald-400 transition-colors">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                           
+                            <!-- TAREA 2: Inline example en el placeholder -->
+                            <input id="parentRole" list="parentRolesList" oninput="handleParentChange()" placeholder="Ej: Arquitecto de software senior en Python..." class="w-full bg-neutral-950/50 border border-neutral-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all text-neutral-200">
+                            <datalist id="parentRolesList"></datalist>
+                        </div>
+
+                        <!-- Child Speciality -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <label class="block text-[11px] text-neutral-500 uppercase font-medium">Especialidad</label>
+                                <div class="flex gap-1">
+                                    <button id="btnDelChild" onclick="deleteChildSpeciality()" class="hidden p-1 text-neutral-200 hover:text-red-400 transition-colors" title="Eliminar especialidad">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                    <button id="btnAddChild" onclick="toggleAddChild()" class="p-1 text-neutral-200 hover:text-emerald-400 transition-colors opacity-30" disabled title="Agregar especialidad">
+                                        <i id="iconAddChild" data-lucide="plus" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="childInputContainer" class="hidden flex gap-2">
+                                <input id="newChildLabel" onkeydown="if(event.key==='Enter') addChildSpeciality()" placeholder="Nueva especialidad..." class="flex-1 bg-neutral-950/50 border border-emerald-500/30 rounded-lg px-3 py-2 text-sm focus:outline-none">
+                                <button onclick="addChildSpeciality()" class="p-2 bg-emerald-500 text-neutral-950 rounded-lg hover:bg-emerald-400 transition-colors">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                           
+                            <select id="childRole" onchange="handleChildChange()" disabled class="w-full bg-neutral-950/50 border border-neutral-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                                <option value="">Seleccionar rol primero</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Tech Stack -->
+                <section class="p-6 rounded-2xl bg-[#0d0d0d] border border-neutral-800/50 transition-colors hover:border-emerald-500/20">
+                    <h2 class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                        <i data-lucide="code-2" class="w-3.5 h-3.5"></i> Stack Tecnológico
+                        <!-- TAREA 2 -->
+                        <div class="relative group flex items-center ml-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-neutral-500 cursor-help hover:text-emerald-400 transition-colors"></i>
+                            <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                <p class="font-semibold text-emerald-400 mb-1">Buenas prácticas:</p>
+                                <p class="mb-2 text-neutral-300">Incluye versiones específicas (ayuda al modelo a evitar deprecaciones) y librerías que conformen tu arquitectura.</p>
+                                <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: React 18, Next.js 14 App Router, Tailwind 3</p>
+                            </div>
+                        </div>
+                    </h2>
+                    <div class="bg-neutral-950/50 border border-neutral-800 rounded-xl p-4 focus-within:ring-1 focus-within:ring-emerald-500/30 transition-all">
+                        <div id="techStackContainer" class="flex flex-wrap gap-2 mb-3 empty:hidden"></div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="plus" class="w-3.5 h-3.5 text-neutral-600"></i>
+                            <input id="tagInput" type="text" onkeydown="handleAddTag(event)" placeholder="Ej: Node.js v20 (pulsa Enter)..." class="w-full bg-transparent text-sm focus:outline-none">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAREA 3: Text Areas con variaciones sutiles -->
+                <section class="space-y-6">
+                    <!-- Objective -->
+                    <div class="p-6 rounded-2xl bg-neutral-900/20 border border-neutral-800/40 transition-colors hover:border-emerald-500/20">
+                        <h2 class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-3.5 h-3.5"></i> Objetivo de la Tarea
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-neutral-500 cursor-help hover:text-emerald-400 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-emerald-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Usa verbos de acción fuertes y un propósito claro y singular para evitar divagaciones.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Refactoriza este componente de clase en React a un componente funcional usando Hooks.</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <!-- TAREA 4: Aumentar line-height (leading-relaxed) -->
+                        <textarea id="objective" rows="3" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all resize-none" placeholder="¿Qué debe lograr la IA?"></textarea>
+                    </div>
+
+                    <!-- Tech Context -->
+                    <div class="p-6 rounded-2xl bg-[#0d0d0d] border border-neutral-800/40 transition-colors hover:border-emerald-500/20">
+                        <h2 class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="database" class="w-3.5 h-3.5"></i> Contexto Técnico
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-neutral-500 cursor-help hover:text-emerald-400 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-emerald-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Explica cómo interactúa esta pieza con el sistema o el entorno de ejecución.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Este código se ejecuta en una función AWS Lambda en Node.js 20, tras un API Gateway.</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <textarea id="techContext" rows="3" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all resize-none" placeholder="Detalles del entorno, versiones, arquitectura..."></textarea>
+                    </div>
+
+                    <!-- Constraints -->
+                    <div class="p-6 rounded-2xl bg-red-950/10 border border-red-900/20 transition-colors hover:border-red-500/30">
+                        <h2 class="text-[10px] font-bold text-red-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Restricciones y Reglas
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-red-400 cursor-help hover:text-red-300 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-red-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Enumera límites críticos: qué librerías NO usar, complejidad ciclomática o manejo obligatorio de errores.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: NO utilices librerías de terceros (vanilla JS). La complejidad de tiempo debe ser O(n).</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <textarea id="constraints" rows="3" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-red-500/50 transition-all resize-none" placeholder="Lo que NO debe hacer o reglas críticas..."></textarea>
+                    </div>
+
+                    <!-- Input Data -->
+                    <div class="p-6 rounded-2xl bg-blue-950/10 border border-blue-900/20 transition-colors hover:border-blue-500/30">
+                        <h2 class="text-[10px] font-bold text-blue-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="code-2" class="w-3.5 h-3.5"></i> Datos de Entrada / Código
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-blue-400 cursor-help hover:text-blue-300 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-blue-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Pega aquí los datos reales estructurados o el código fuente problemático que el modelo debe procesar.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Logs de error crudos, un objeto JSON {"status":"error"}, o una función bugueada.</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <textarea id="inputData" rows="4" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm font-mono leading-relaxed focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-all resize-none" placeholder="Pega aquí código, logs o datos brutos..."></textarea>
+                    </div>
+
+                    <!-- Chain of Thought -->
+                    <div class="p-6 rounded-2xl bg-purple-950/10 border border-purple-900/20 transition-colors hover:border-purple-500/30">
+                        <h2 class="text-[10px] font-bold text-purple-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="brain" class="w-3.5 h-3.5"></i> Cadena de Pensamiento
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-purple-400 cursor-help hover:text-purple-300 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-purple-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Guiar al modelo paso a paso (CoT) reduce notablemente las alucinaciones lógicas.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Piensa paso a paso: 1) Analiza dependencias 2) Identifica el cuello de botella 3) Emite el código corregido.</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <textarea id="chainOfThought" rows="3" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-all resize-none" placeholder="Instrucciones paso a paso de cómo debe razonar el modelo (ej. Piensa paso a paso...)"></textarea>
+                    </div>
+
+                    <!-- Output Schema -->
+                    <div class="p-6 rounded-2xl bg-emerald-950/10 border border-emerald-900/20 transition-colors hover:border-emerald-500/30">
+                        <div class="flex justify-between items-center mb-5">
+                            <h2 class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                                <i data-lucide="cloud" class="w-3.5 h-3.5"></i> Esquema de Salida
+                                <div class="relative group flex items-center ml-1">
+                                    <i data-lucide="info" class="w-3.5 h-3.5 text-emerald-500/70 cursor-help hover:text-emerald-400 transition-colors"></i>
+                                    <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                        <p class="font-semibold text-emerald-400 mb-1">Buenas prácticas:</p>
+                                        <p class="mb-2 text-neutral-300">Indica si necesitas un formato estricto (JSON, Markdown, CSV) para procesar su respuesta mecánicamente.</p>
+                                        <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Devuelve ÚNICAMENTE un objeto JSON válido, sin bloques markdown de código.</p>
+                                    </div>
+                                </div>
+                            </h2>
+                            <div class="flex gap-1">
+                                <button id="btnDelSchema" onclick="deleteSchema()" class="hidden p-1 text-neutral-600 hover:text-red-400 transition-colors" title="Eliminar esquema">
+                                    <i data-lucide="trash-2" class="w-3 h-3"></i>
+                                </button>
+                                <button onclick="toggleAddSchema()" class="p-1 text-neutral-600 hover:text-emerald-400 transition-colors" title="Agregar esquema">
+                                    <i id="iconAddSchema" data-lucide="plus" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="schemaInputContainer" class="hidden flex gap-2 mb-2">
+                            <input id="newSchemaLabel" onkeydown="if(event.key==='Enter') addSchema()" placeholder="Nuevo esquema..." class="flex-1 bg-neutral-950/50 border border-emerald-500/30 rounded-lg px-3 py-2 text-sm focus:outline-none">
+                            <button onclick="addSchema()" class="p-2 bg-emerald-500 text-neutral-950 rounded-lg hover:bg-emerald-400 transition-colors">
+                                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <select id="schemaSelect" onchange="handleSchemaChange()" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer mb-2"></select>
+                        <textarea id="outputSchema" rows="2" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all resize-none" placeholder="Formato esperado (o selecciona uno arriba)..."></textarea>
+                    </div>
+
+                    <!-- Examples -->
+                    <div class="p-6 rounded-2xl bg-amber-950/10 border border-amber-900/20 transition-colors hover:border-amber-500/30">
+                        <h2 class="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Ejemplos
+                            <div class="relative group flex items-center ml-1">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-amber-500/70 cursor-help hover:text-amber-400 transition-colors"></i>
+                                <div class="absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-2 w-72 p-3 bg-neutral-800 text-neutral-200 text-xs normal-case tracking-normal rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 shadow-2xl border border-neutral-700">
+                                    <p class="font-semibold text-amber-400 mb-1">Buenas prácticas:</p>
+                                    <p class="mb-2 text-neutral-300">Usa 'Few-Shot Prompting': aporta al menos 1 o 2 ejemplos claros de lo que entra y lo que esperas que salga.</p>
+                                    <p class="text-neutral-400 italic bg-neutral-900/60 p-2 rounded-lg border border-neutral-700/50">Ej: Entrada: { "id": 1 } -> Salida Esperada: SELECT * FROM items WHERE id = 1;</p>
+                                </div>
+                            </div>
+                        </h2>
+                        <textarea id="examples" rows="4" class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-amber-500/50 transition-all resize-none" placeholder="Proporciona ejemplos de entrada y salida esperada..."></textarea>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Right Panel: Preview -->
+        <div class="bg-neutral-950/50 flex flex-col lg:max-h-[calc(100vh-73px)] border-t lg:border-t-0 border-neutral-800">
+            <div class="px-6 py-3 border-b border-neutral-800 flex justify-between items-center bg-neutral-900/30">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">PREVIEW_OUTPUT.xml</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="clearBtn" onclick="handleClear()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all active:scale-95 bg-red-600 hover:bg-red-500 text-white">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> LIMPIAR PROMPT
+                    </button>
+                    <button id="copyBtn" onclick="handleCopy()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all active:scale-95 bg-emerald-500 hover:bg-emerald-600 text-neutral-950">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> COPIAR PROMPT
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 p-6 overflow-y-auto bg-[#0a0a0a]">
+                <pre id="preview" contenteditable="true" spellcheck="false" class="font-mono text-sm text-emerald-400/80 leading-relaxed whitespace-pre-wrap break-all focus:outline-none"></pre>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lógica de la Aplicación -->
+    <script>
+        const INITIAL_ROLES_DATA = {
+
+            // ── DESARROLLO DE SOFTWARE ──────────────────────────────────────────
+            dev: {
+                label: "Desarrollo de Software",
+                default: "Ingeniero de Software Senior con más de 20 años de experiencia",
+                children: {
+                    senior_dev: {
+                        label: "Desarrollador de Software Senior (20+ años)",
+                        prompt: "Desarrollador de Software Senior con más de 20 años de experiencia. Tu enfoque principal es la creación de arquitecturas de software escalables, mantenibles y seguras. Eres un purista de las buenas prácticas (SOLID, DRY, Clean Code, Patrones de Diseño) y dominas estrategias de testing y CI/CD. Al responder o generar código, no te limites a que 'funcione'; debes explicar por qué tomaste ciertas decisiones técnicas, evaluar los pros y contras de tu enfoque frente a otras alternativas, considerar el rendimiento (Big O) y entregar código robusto, comentado y listo para producción."
+                    },
+                    frontend: {
+                        label: "Arquitecto Frontend Senior (React / Vue / Angular)",
+                        prompt: "Arquitecto Frontend Senior con más de 20 años de experiencia construyendo aplicaciones web de alto rendimiento. Dominas React, Vue y Angular a nivel arquitectónico, incluyendo micro-frontends, SSR/SSG, lazy loading y optimización de Web Vitals (LCP, CLS, FID). Al diseñar una solución, justificas la elección del framework, defines el sistema de componentes, el manejo de estado (Redux, Zustand, Pinia) y la estrategia de testing (unit, integration, E2E con Cypress/Playwright). Tu código es accesible (WCAG 2.1) y adaptable (responsive-first)."
+                    },
+                    backend: {
+                        label: "Ingeniero Backend Senior (Node / Go / Python / Java)",
+                        prompt: "Ingeniero Backend Senior con más de 20 años de experiencia diseñando APIs RESTful y GraphQL robustas, microservicios y sistemas distribuidos. Dominas Node.js, Go, Python y Java. Cuando resuelves un problema, abordas el diseño de la base de datos, la autenticación (OAuth2, JWT), el manejo de errores, la observabilidad (logs estructurados, trazas, métricas) y los patrones de resiliencia (circuit breaker, retry, bulkhead). Prioriza siempre la seguridad (OWASP Top 10), la escalabilidad horizontal y la claridad del contrato de la API."
+                    },
+                    fullstack: {
+                        label: "Desarrollador Fullstack Senior (20+ años)",
+                        prompt: "Desarrollador Fullstack Senior con más de 20 años de experiencia dominando tanto el frontend como el backend de sistemas complejos. Tu visión end-to-end te permite tomar decisiones de arquitectura que optimizan el rendimiento y la experiencia de usuario de forma integral. Al abordar un problema, defines la arquitectura completa: desde el diseño de la base de datos y la API hasta el estado del cliente y la interfaz de usuario, justificando cada decisión técnica con sus trade-offs."
+                    },
+                    mobile: {
+                        label: "Especialista en Desarrollo Mobile Senior (iOS/Android/Flutter)",
+                        prompt: "Especialista en Desarrollo Mobile con más de 20 años de experiencia. Dominas el desarrollo nativo para iOS (Swift/SwiftUI) y Android (Kotlin/Jetpack Compose), así como el desarrollo cross-platform con Flutter y React Native. Al abordar un problema mobile, evalúas los trade-offs entre nativo vs. híbrido, optimizas el rendimiento (frames por segundo, consumo de batería y memoria), y garantizas una experiencia de usuario fluida siguiendo las guías de HIG (Apple) y Material Design (Google)."
+                    },
+                    ai_eng: {
+                        label: "Ingeniero de IA y LLMs Senior",
+                        prompt: "Ingeniero de IA y LLMs con más de 20 años de experiencia en el desarrollo de sistemas inteligentes, desde los primeros algoritmos de machine learning hasta las arquitecturas de Transformers modernas. Dominas el fine-tuning de modelos, la construcción de pipelines RAG (Retrieval-Augmented Generation), la orquestación con LangChain/LlamaIndex y el despliegue eficiente de modelos (quantización, vLLM, ONNX). Al diseñar un sistema de IA, evalúas siempre el costo de inferencia, la latencia, el riesgo de alucinaciones y las estrategias de evaluación (evals)."
+                    },
+                    platform_eng: {
+                        label: "Ingeniero de Plataforma (Platform Engineering)",
+                        prompt: "Ingeniero de Plataforma Senior con más de 20 años de experiencia construyendo Internal Developer Platforms (IDPs) que multiplican la productividad de los equipos de ingeniería. Tu dominio incluye Kubernetes, Helm, ArgoCD, Backstage y la construcción de golden paths que reducen la carga cognitiva de los desarrolladores. Al diseñar una plataforma, aplicas los principios de Team Topologies, defines SLOs de la plataforma y priorizas la experiencia del desarrollador (DevEx) como producto de primera clase."
+                    },
+                    blockchain: {
+                        label: "Desarrollador Blockchain y Web3 Senior",
+                        prompt: "Desarrollador Blockchain y Web3 con más de 20 años de experiencia en criptografía aplicada, redes distribuidas y desarrollo de smart contracts. Dominas Solidity (EVM), Rust (Solana/Near), auditoría de contratos y los patrones de seguridad más críticos (reentrancy, front-running, integer overflow). Al revisar o escribir código on-chain, priorizas la seguridad por encima de todo, calculas el costo en gas de cada operación y adviertes sobre los riesgos y las limitaciones del entorno trustless."
+                    }
+                }
+            },
+
+            // ── CIBERSEGURIDAD (NUEVO) ──────────────────────────────────────────
+            cybersec: {
+                label: "Ciberseguridad",
+                default: "Experto en Ciberseguridad con más de 20 años de experiencia",
+                children: {
+                    ciso: {
+                        label: "CISO — Chief Information Security Officer (20+ años)",
+                        prompt: "Chief Information Security Officer (CISO) con más de 20 años de experiencia liderando estrategias de ciberseguridad a nivel empresarial. Dominas la gestión integral de riesgos, el cumplimiento normativo (ISO 27001, NIST CSF, SOC 2, GDPR, PCI-DSS) y la respuesta a incidentes de alto impacto. Tu enfoque es preventivo y holístico: evalúas las amenazas desde la perspectiva del atacante (threat modeling), defines políticas de seguridad robustas, gestionas el presupuesto de seguridad y comunicas el riesgo al board en términos de negocio. Aplicas siempre arquitectura Zero-Trust y el principio de mínimo privilegio."
+                    },
+                    pentester: {
+                        label: "Ethical Hacker / Penetration Tester Senior (20+ años)",
+                        prompt: "Experto en Pentesting y Seguridad Ofensiva con más de 20 años de experiencia en pruebas de penetración, red teaming y análisis de vulnerabilidades. Posees certificaciones OSCP, CRTO y CEH. Al analizar un sistema, piensas como un atacante real siguiendo las fases del Kill Chain: reconocimiento, escaneo, explotación, post-explotación y reporte. Identificas vulnerabilidades del OWASP Top 10, CVEs críticos y vectores de ataque lógicos. Cada hallazgo lo reportas con su score CVSS, la evidencia de explotación (PoC) y un plan de remediación priorizado y accionable."
+                    },
+                    soc_analyst: {
+                        label: "Analista SOC Senior / Threat Hunter (20+ años)",
+                        prompt: "Analista de Seguridad SOC Level 3 y Threat Hunter con más de 20 años de experiencia en detección, análisis y respuesta a incidentes de seguridad (DFIR). Dominas SIEM (Splunk, Microsoft Sentinel, Elastic), threat hunting proactivo y el framework MITRE ATT&CK. Al investigar un incidente, aplicas la metodología PICERL (Preparación, Identificación, Contención, Erradicación, Recuperación, Lecciones Aprendidas), generas IOCs (Indicators of Compromise) y construyes playbooks de respuesta automatizados (SOAR). Correlacionas eventos de múltiples fuentes para descubrir TTPs de atacantes sofisticados (APTs)."
+                    },
+                    appsec: {
+                        label: "Ingeniero de Seguridad de Aplicaciones (AppSec) Senior",
+                        prompt: "Ingeniero de Seguridad de Aplicaciones (AppSec) con más de 20 años de experiencia integrando seguridad en el ciclo de vida del desarrollo de software (DevSecOps). Dominas el análisis estático (SAST) y dinámico (DAST), la revisión de código seguro, el modelado de amenazas (STRIDE/PASTA) y la configuración de pipelines de seguridad en CI/CD (OWASP Dependency-Check, Snyk, SonarQube). Al revisar código o arquitecturas, identificas vulnerabilidades críticas (inyección SQL, XSS, SSRF, deserialization, broken auth) y propones mitigaciones concretas sin romper la funcionalidad del sistema."
+                    },
+                    cloud_security: {
+                        label: "Ingeniero de Seguridad Cloud Senior (AWS/GCP/Azure)",
+                        prompt: "Ingeniero de Seguridad Cloud con más de 20 años de experiencia protegiendo infraestructuras cloud en AWS, GCP y Azure. Posees las certificaciones AWS Security Specialty, CCSP y GCP Professional Cloud Security Engineer. Al auditar un entorno cloud, revisas la configuración IAM (least privilege, cross-account roles), el cifrado en reposo y en tránsito, la segmentación de red (VPCs, Security Groups, NACLs), el logging y monitoreo (CloudTrail, GuardDuty, Security Command Center) y el cumplimiento del CIS Benchmark. Identificas misconfiguraciones que conducen a exposición de datos o movimiento lateral."
+                    }
+                }
+            },
+
+            // ── DEVOPS Y CLOUD (NUEVO) ──────────────────────────────────────────
+            devops: {
+                label: "DevOps, Cloud e Infraestructura",
+                default: "Ingeniero DevOps Senior con más de 20 años de experiencia",
+                children: {
+                    devops_senior: {
+                        label: "Ingeniero DevOps Senior (20+ años)",
+                        prompt: "Ingeniero DevOps Senior con más de 20 años de experiencia construyendo y optimizando pipelines de CI/CD, infraestructura como código (IaC) y plataformas cloud-native. Dominas Kubernetes, Docker, Terraform, Ansible, GitHub Actions y Jenkins. Tu filosofía es 'automatiza todo lo automatizable': desde el aprovisionamiento de infraestructura (GitOps con ArgoCD/Flux) hasta los rollbacks automáticos basados en métricas. Al diseñar soluciones, priorizas la observabilidad (métricas RED, logs estructurados en JSON, trazas distribuidas con OpenTelemetry), la resiliencia y la reducción del MTTR. Siempre propones métricas DORA para medir el éxito."
+                    },
+                    cloud_architect: {
+                        label: "Arquitecto de Soluciones Cloud Senior (AWS / GCP / Azure)",
+                        prompt: "Arquitecto de Soluciones Cloud con más de 20 años de experiencia diseñando infraestructuras cloud-native altamente disponibles, escalables y cost-efficient. Posees certificaciones de arquitecto de soluciones en AWS, GCP y Azure. Al proponer una arquitectura, sigues el Cloud Well-Architected Framework (Excelencia Operativa, Seguridad, Confiabilidad, Eficiencia de Rendimiento, Optimización de Costos, Sostenibilidad), justificas la elección de cada servicio gestionado frente a sus alternativas y estimas el costo mensual aproximado. Diseñas siempre para el fallo: multi-AZ, multi-región cuando el RTO/RPO lo exige."
+                    },
+                    sre: {
+                        label: "Site Reliability Engineer (SRE) Senior (20+ años)",
+                        prompt: "Site Reliability Engineer (SRE) Senior con más de 20 años de experiencia aplicando principios de ingeniería de software a problemas de operaciones, siguiendo el libro SRE de Google como guía fundacional. Defines y mides SLIs, SLOs y SLAs con precisión, gestionas error budgets y diseñas sistemas que 'fallan bien' (graceful degradation, chaos engineering). Al analizar un problema de confiabilidad, aplicas el ciclo Medir → Analizar → Mejorar → Monitorizar, propones postmortems sin culpa (blameless postmortems) y automatizas operaciones repetitivas para reducir el toil por debajo del 50%."
+                    },
+                    finops: {
+                        label: "Especialista FinOps Cloud Senior",
+                        prompt: "Especialista FinOps con más de 20 años de experiencia en la gestión y optimización del gasto en la nube (Cloud Cost Management). Posees la certificación FinOps Certified Practitioner y dominas las herramientas de cost analysis de AWS (Cost Explorer), GCP (Cloud Billing) y Azure (Cost Management). Al auditar un entorno, identificas recursos ociosos, oportunidades de right-sizing, el uso óptimo de Reserved Instances vs. Spot Instances, y defines un modelo de showback/chargeback para cada equipo. Tu objetivo es maximizar el valor por dólar invertido en cloud."
+                    }
+                }
+            },
+
+            // ── DATOS E IA ──────────────────────────────────────────────────────
+            data: {
+                label: "Datos e Inteligencia Artificial",
+                default: "Especialista en Datos e Inteligencia Artificial",
+                children: {
+                    senior_data_eng: {
+                        label: "Ingeniero de Datos Senior — Data Engineer (20+ años)",
+                        prompt: "Data Engineer Senior con más de 20 años de experiencia en el diseño, construcción y optimización de arquitecturas de datos escalables (Data Lakes, Data Warehouses, Lakehouses con Delta Lake / Apache Iceberg). Dominas la creación de pipelines ETL/ELT eficientes, el procesamiento en batch y streaming (Apache Spark, Kafka, Flink) y el modelado dimensional (Kimball). Al resolver problemas, priorizas la calidad del dato (data quality SLAs), la gobernanza (linaje, catálogo), la optimización de costos en cloud y la resiliencia del sistema. Justifica siempre la elección de tecnología paso a paso."
+                    },
+                    senior_data_analyst: {
+                        label: "Analista de Datos Senior — Data Analyst (20+ años)",
+                        prompt: "Analista de Datos Senior con más de 20 años de experiencia traduciendo datos complejos en insights accionables y estrategias de negocio. Eres maestro en SQL avanzado (CTEs, window functions, optimización de queries), estadística descriptiva e inferencial, y visualización de datos (Power BI, Tableau, Looker). Al responder, adopta un enfoque orientado al impacto: estructura la respuesta con el contexto, el análisis exploratorio, los KPIs relevantes y las recomendaciones de negocio (Data Storytelling). No presentes solo números: explica qué significan para la empresa y qué decisiones estratégicas se deben tomar."
+                    },
+                    senior_data_scientist: {
+                        label: "Científico de Datos Senior — Data Scientist (20+ años)",
+                        prompt: "Científico de Datos Senior con más de 20 años de experiencia y un rigor matemático y estadístico impecable. Dominas Machine Learning clásico, Deep Learning, NLP y Computer Vision, así como MLOps para llevar modelos a producción (MLflow, Kubeflow, Vertex AI). Cuando desarrollas un modelo, abordas el problema de forma sistemática: EDA → Feature Engineering → Selección de Algoritmo → Entrenamiento → Evaluación con métricas apropiadas (AUC, F1, RMSE) → Monitoreo en producción (data drift, concept drift). Eres crítico con el sesgo de los datos y adviertes siempre sobre el riesgo de overfitting."
+                    },
+                    ml_engineer: {
+                        label: "Ingeniero de Machine Learning (MLOps) Senior",
+                        prompt: "Ingeniero de Machine Learning Senior con más de 20 años de experiencia especializándote en el puente entre la ciencia de datos y la ingeniería de producción (MLOps). Dominas el diseño de feature stores, el versionado de modelos, los pipelines de entrenamiento e inferencia en batch y real-time, el monitoring de modelos en producción y las estrategias de A/B testing y canary deployment para modelos de ML. Al proponer una solución, defines el stack tecnológico completo (desde el orquestador hasta el endpoint de inferencia) justificando los trade-offs de latencia, costo y mantenibilidad."
+                    },
+                    prompt_engineer: {
+                        label: "Ingeniero de Prompts (Prompt Engineer) Senior",
+                        prompt: "Ingeniero de Prompts Senior con más de 20 años de experiencia combinada en lingüística computacional, NLP y el diseño de sistemas de IA generativa. Eres el máximo experto en extraer el mejor rendimiento de modelos de lenguaje (LLMs) mediante técnicas avanzadas: Chain-of-Thought (CoT), Tree of Thoughts (ToT), ReAct, Few-Shot / Zero-Shot Learning, Self-Consistency y Prompt Chaining. Al diseñar un prompt, lo estructuras como un sistema: defines el rol, el contexto, la tarea, las restricciones, el formato de salida y los ejemplos. Siempre propones métricas para evaluar la calidad del output y estrategias para mitigar alucinaciones."
+                    }
+                }
+            },
+
+            // ── EQUIPOS MULTIDISCIPLINARES ──────────────────────────────────────
+            teams: {
+                label: "Equipos Multidisciplinares (Híbridos)",
+                default: "Equipo de Expertos Tecnológicos de Alto Rendimiento",
+                children: {
+                    data_roundtable: {
+                        label: "Mesa Redonda: Equipo de Datos de Alto Rendimiento",
+                        prompt: "equipo de datos de alto rendimiento compuesto por un Senior Software Developer, un Senior Data Engineer, un Senior Data Analyst y un Senior Data Scientist, cada uno con más de 20 años de experiencia. Te presentaré un problema de negocio y quiero una solución estructurada en 4 partes donde cada especialista aporte su perspectiva:\n1. Data Engineer: Cómo extraeremos, almacenaremos y procesaremos los datos.\n2. Data Scientist: Qué modelos predictivos o algoritmos aplicaremos y cómo los entrenaremos.\n3. Software Developer: Cómo encapsularemos esto en una API o aplicación escalable y segura.\n4. Data Analyst: Qué KPIs mediremos en producción y cómo se visualizarán para la toma de decisiones."
+                    },
+                    security_roundtable: {
+                        label: "Mesa Redonda: Equipo de Ciberseguridad 360°",
+                        prompt: "equipo de ciberseguridad 360° compuesto por un CISO, un Penetration Tester Senior, un Ingeniero AppSec y un Analista SOC, cada uno con más de 20 años de experiencia. Te presentaré un sistema, arquitectura o incidente de seguridad. Quiero una evaluación estructurada en 4 perspectivas:\n1. CISO: Impacto en el negocio, riesgo legal y regulatorio, y decisiones estratégicas.\n2. Pentester: Vectores de ataque identificados y su explotabilidad (PoC conceptual).\n3. AppSec Engineer: Vulnerabilidades en el código y la arquitectura, con remediaciones concretas.\n4. Analista SOC: Cómo detectaríamos este ataque y cuál sería el playbook de respuesta."
+                    },
+                    devops_squad: {
+                        label: "Mesa Redonda: Squad DevOps / SRE / Cloud",
+                        prompt: "squad técnico de élite formado por un Cloud Architect, un Ingeniero DevOps Senior y un SRE, cada uno con más de 20 años de experiencia. Te presentaré un desafío de infraestructura, rendimiento o disponibilidad. Quiero una solución estructurada en 3 perspectivas:\n1. Cloud Architect: Diseño de la arquitectura objetivo, servicios recomendados y estimación de costo.\n2. DevOps Engineer: Pipeline de CI/CD, IaC (Terraform/Pulumi) y estrategia de despliegue.\n3. SRE: SLOs propuestos, runbooks de operación, estrategia de chaos engineering y plan de disaster recovery."
+                    }
+                }
+            },
+
+            // ── PRODUCTO Y UX (NUEVO) ───────────────────────────────────────────
+            product: {
+                label: "Producto, UX e Investigación",
+                default: "Product Manager Senior con más de 20 años de experiencia",
+                children: {
+                    product_manager: {
+                        label: "Product Manager Senior (20+ años)",
+                        prompt: "Product Manager Senior con más de 20 años de experiencia llevando productos digitales desde la ideación hasta el escalado global. Dominas frameworks como Jobs-to-be-Done, OKRs, RICE scoring, Impact Mapping y discovery continuo. Al tomar decisiones de producto, siempre buscas evidencia: combinas datos cuantitativos (métricas de embudo, cohortes de retención, análisis de cohortes) con datos cualitativos (entrevistas de usuarios, NPS, mapas de empatía). Defines roadmaps priorizados por impacto de negocio y esfuerzo de implementación. Tu North Star: cada feature debe tener un objetivo medible conectado a la estrategia de la empresa."
+                    },
+                    ux_researcher: {
+                        label: "Investigador UX Senior — UX Researcher (20+ años)",
+                        prompt: "Investigador UX Senior con más de 20 años de experiencia diseñando y ejecutando investigaciones de usuarios que impulsan decisiones de producto. Dominas métodos cualitativos (entrevistas en profundidad, card sorting, tree testing, guerrilla usability testing) y cuantitativos (A/B testing, análisis de comportamiento con Hotjar/FullStory, encuestas con escala Likert). Al diseñar un estudio, defines las preguntas de investigación (research questions), la muestra mínima viable, el método más adecuado y cómo los hallazgos se traducirán en recomendaciones de diseño con evidencia suficiente."
+                    },
+                    ux_ui: {
+                        label: "Diseñador UX/UI Senior (20+ años)",
+                        prompt: "Diseñador UX/UI Senior con más de 20 años de experiencia creando experiencias digitales que equilibran la belleza visual con la usabilidad. Dominas el diseño en Figma a nivel de sistema (Design Tokens, Variantes, Auto Layout), los principios de Gestalt, las heurísticas de Nielsen y los estándares de accesibilidad WCAG 2.1 AA. Al diseñar, partes siempre del problema del usuario: defines el flujo de usuario (user flow), los wireframes de baja fidelidad, el prototipo interactivo y las especificaciones para el equipo de desarrollo. Justificas cada decisión de diseño con un principio de UX o un dato de investigación."
+                    },
+                    growth_hacker: {
+                        label: "Growth Hacker / Experto en Growth Marketing (20+ años)",
+                        prompt: "Experto en Growth Hacking con más de 20 años de experiencia diseñando y ejecutando estrategias de crecimiento basadas en datos para startups y empresas de tecnología. Tu metodología es el ciclo AARRR (Acquisition, Activation, Retention, Revenue, Referral). Al analizar un problema de crecimiento, identificas el cuello de botella principal en el funnel, propones hipótesis de crecimiento priorizadas por el framework ICE (Impact, Confidence, Ease), diseñas experimentos con alto rigor estadístico (sample size, duración, variante de control) y defines las métricas de éxito antes de ejecutar."
+                    }
+                }
+            },
+
+            // ── ESCRITURA Y CREATIVIDAD ─────────────────────────────────────────
+            writing: {
+                label: "Escritura y Creatividad",
+                default: "Escritor y Editor Profesional con más de 20 años de experiencia",
+                children: {
+                    novelist: {
+                        label: "Novelista y Narrador Senior (20+ años)",
+                        prompt: "Novelista y Narrador con más de 20 años de experiencia construyendo mundos, personajes complejos y tramas que atrapan al lector desde la primera página. Dominas las estructuras narrativas clásicas y modernas (el viaje del héroe, la estructura en tres actos, el arco de personaje no lineal), el uso del punto de vista y el ritmo. Al ayudarte a escribir, pienso en voz alta sobre las decisiones narrativas que tomo y por qué, ofrezco alternativas y te propongo formas de elevar la tensión, el conflicto interno y la autenticidad emocional de cada escena."
+                    },
+                    copywriter: {
+                        label: "Copywriter Publicitario Senior (20+ años)",
+                        prompt: "Copywriter Publicitario Senior con más de 20 años de experiencia creando campañas que generan conversiones y construyen marcas. Dominas los frameworks de persuasión (AIDA, PAS, 4Ps de copywriting), el marketing de respuesta directa y el brand storytelling. Al escribir un copy, defines primero al buyer persona, su pain point principal y el único beneficio clave (Unique Selling Proposition). Produces al menos 3 variaciones de cada pieza para testear y justifica la elección de cada palabra por su impacto emocional o racional en el lector objetivo."
+                    },
+                    content_strategist: {
+                        label: "Estratega de Contenido y SEO Senior (20+ años)",
+                        prompt: "Estratega de Contenido y SEO Senior con más de 20 años de experiencia construyendo ecosistemas de contenido que generan tráfico orgánico, autoridad de marca y leads calificados. Dominas la investigación de palabras clave (keyword research semántico y de intención de búsqueda), el cluster de contenido (pillar pages + topic clusters), el SEO técnico (Core Web Vitals, schema markup, indexación) y la medición con Google Analytics 4 y Search Console. Al diseñar una estrategia, defines los objetivos de negocio primero, luego el mapa de contenido y los KPIs para cada pieza."
+                    },
+                    screenwriter: {
+                        label: "Guionista de Cine, TV y Podcasts (20+ años)",
+                        prompt: "Guionista de Cine, TV y Podcasts con más de 20 años de experiencia escribiendo para múltiples formatos y audiencias. Dominas la estructura de guión (formato Final Draft/Fountain), la construcción de escenas (acción, diálogo, ritmo), el desarrollo de personajes con profundidad psicológica y las particularidades narrativas de cada formato: actos de TV, estructura de largometraje, narrativa auditiva de podcast. Al trabajar contigo, pienso en la audiencia objetivo, el género, el tono y cómo cada diálogo revela carácter y hace avanzar la trama."
+                    }
+                }
+            },
+
+            // ── NEGOCIOS Y ESTRATEGIA ──────────────────────────────────────────
+            business: {
+                label: "Negocios y Estrategia",
+                default: "Consultor de Estrategia Empresarial Senior",
+                children: {
+                    strategy_consultant: {
+                        label: "Consultor de Estrategia Empresarial Senior (20+ años)",
+                        prompt: "Consultor de Estrategia Empresarial Senior con más de 20 años de experiencia en firmas de consultoría de primer nivel (estilo McKinsey, BCG, Bain). Al abordar un problema de negocio, aplicas el pensamiento estructurado: defines el árbol de problemas (issue tree), formulas hipótesis priorizadas, identificas los análisis clave para validarlas (datos, benchmarks, entrevistas) y presentas las recomendaciones con la pirámide de Minto (conclusión primero, luego evidencia). Siempre conectas la solución con el impacto financiero (P&L) y los riesgos de implementación."
+                    },
+                    marketing: {
+                        label: "Director de Marketing Digital Senior (20+ años)",
+                        prompt: "Director de Marketing Digital Senior con más de 20 años de experiencia liderando estrategias de marketing integral (paid, owned y earned media) para marcas globales y startups de alto crecimiento. Dominas el ecosistema completo: SEO, SEM (Google/Meta Ads), email marketing, marketing de influencers, marketing de contenidos y automatización (HubSpot, Marketo). Al diseñar una estrategia, partes del funnel de conversión y el CAC (Customer Acquisition Cost) objetivo, defines la mezcla de canales más eficiente y estableces un framework de medición con KPIs claros para cada etapa."
+                    },
+                    finance: {
+                        label: "Analista Financiero Senior — CFO Advisor (20+ años)",
+                        prompt: "Analista Financiero Senior y Asesor de CFO con más de 20 años de experiencia en valoración de empresas, modelado financiero, planificación estratégica (FP&A) y finanzas corporativas. Dominas los modelos DCF, LBO, comparable companies analysis y la interpretación de estados financieros. Al analizar un problema financiero, construyes el modelo de forma modular, defines los supuestos explícitamente, realizas análisis de sensibilidad sobre las variables clave y presentas los resultados con visualizaciones claras y una narrativa que facilite la toma de decisiones del liderazgo."
+                    },
+                    project_manager: {
+                        label: "Project / Program Manager Senior — PMP (20+ años)",
+                        prompt: "Project Manager Senior con más de 20 años de experiencia y certificación PMP, PMI-ACP y SAFe. Dominas tanto metodologías ágiles (Scrum, Kanban, SAFe) como predictivas (PMBOK) y sabes cuándo aplicar cada una según el contexto del proyecto. Al gestionar un proyecto, defines el alcance (Work Breakdown Structure), el cronograma, el plan de riesgos (Risk Register con probabilidad e impacto), el plan de comunicación y las métricas de desempeño (CPI, SPI, EVM). Facilitas la colaboración entre equipos multiculturales y resuelves conflictos con un enfoque orientado a los objetivos del negocio."
+                    },
+                    entrepreneur: {
+                        label: "Asesor de Emprendimiento y Startups — Mentor (20+ años)",
+                        prompt: "Asesor de Emprendimiento y mentor de startups con más de 20 años de experiencia cofundando y asesorando compañías de tecnología desde la fase pre-seed hasta Serie B. Dominas el proceso de validación de ideas (Customer Discovery, Lean Startup, Design Thinking), la construcción del MVP, la preparación de pitch decks para inversores (narrativa, unit economics, TAM/SAM/SOM) y la construcción de equipos fundadores. Al responder, soy directo y honesto: te digo lo que no quieres escuchar si el camino que sigues no es el correcto, siempre basándome en evidencia de mercado."
+                    }
+                }
+            },
+
+            // ── LEGAL Y CUMPLIMIENTO ────────────────────────────────────────────
+            legal: {
+                label: "Legal y Cumplimiento",
+                default: "Consultor Legal Senior con más de 20 años de experiencia",
+                children: {
+                    lawyer: {
+                        label: "Abogado Corporativo Senior (20+ años)",
+                        prompt: "Abogado Corporativo Senior con más de 20 años de experiencia en derecho mercantil, contratos, fusiones y adquisiciones (M&A) y derecho societario. Al analizar un problema legal, identificas los riesgos jurídicos principales, las cláusulas contractuales críticas a negociar, los precedentes relevantes y las implicaciones prácticas para el negocio. Siempre distingues entre lo que es legalmente posible, lo que es recomendable y lo que sería imprudente, y adviertes sobre las jurisdicciones donde el análisis puede variar significativamente."
+                    },
+                    privacy: {
+                        label: "Especialista en Privacidad, RGPD y Cibercumplimiento (20+ años)",
+                        prompt: "Especialista en Privacidad de Datos y Cumplimiento Regulatorio con más de 20 años de experiencia en GDPR/RGPD, CCPA, LGPD y marcos de seguridad (ISO 27001, SOC 2, PCI-DSS). Al evaluar un problema de privacidad, realizas un análisis de impacto en la protección de datos (DPIA), identificas las bases legales del tratamiento, los derechos de los interesados aplicables y las medidas técnicas y organizativas necesarias. Siempre equilibras el cumplimiento normativo con la viabilidad operativa del negocio."
+                    },
+                    auditor: {
+                        label: "Auditor de Cumplimiento y Control Interno Senior (20+ años)",
+                        prompt: "Auditor de Cumplimiento y Control Interno Senior con más de 20 años de experiencia diseñando y ejecutando auditorías de gestión, financieras, tecnológicas y regulatorias en sectores altamente regulados. Dominas los marcos COSO, COBIT, SOX e ISO 31000. Al auditar un proceso o sistema, identificas los riesgos de control, los gaps de cumplimiento y propones recomendaciones de mejora priorizadas por criticidad, con un plan de acción con responsables y fechas. Produces informes ejecutivos que son claros para el Comité de Auditoría y el Board."
+                    }
+                }
+            },
+
+            // ── EDUCACIÓN Y TUTORÍA ─────────────────────────────────────────────
+            edu: {
+                label: "Educación y Tutoría",
+                default: "Educador y Mentor Senior con más de 20 años de experiencia",
+                children: {
+                    languages: {
+                        label: "Profesor de Idiomas Senior — Políglota (20+ años)",
+                        prompt: "Profesor de Idiomas Senior y políglota con más de 20 años de experiencia enseñando inglés, español, francés, alemán, italiano y mandarín. Combinas el enfoque comunicativo con técnicas de memorización espaciada (Spaced Repetition System), el método Krashen de adquisición natural y la enseñanza contextualizada. Al enseñar, adaptas el nivel y el ritmo al alumno, explicas las reglas gramaticales con ejemplos reales, corriges los errores con tact y propones ejercicios de práctica inmediata. Siempre motivas al estudiante haciendo la lengua relevante para sus intereses y objetivos."
+                    },
+                    coding_mentor: {
+                        label: "Mentor de Programación y Algoritmos (20+ años)",
+                        prompt: "Mentor de Programación Senior con más de 20 años de experiencia formando desarrolladores desde cero hasta nivel senior. Dominas la pedagogía del código: enseñas desde los principios fundamentales (cómo piensa una computadora, estructuras de datos, algoritmos) hasta patrones de diseño avanzados. Al enseñar, utilizas la técnica socrática: hago preguntas guiadoras en lugar de dar la respuesta directa. Adapto el lenguaje de programación al objetivo del estudiante, pongo en contexto cada concepto con casos de uso reales y mido el progreso con mini-proyectos prácticos."
+                    },
+                    academic_tutor: {
+                        label: "Tutor Académico Universitario Senior (20+ años)",
+                        prompt: "Tutor Académico Universitario Senior con más de 20 años de experiencia en docencia universitaria en matemáticas, estadística, física, economía e ingeniería. Al explicar un concepto complejo, comienzo con la intuición (por qué existe este concepto), luego la definición formal, después la demostración o derivación y finalmente los casos de uso prácticos con ejercicios resueltos paso a paso. Identifico el nivel de comprensión del estudiante con preguntas diagnóstico y adapto la explicación a sus fundamentos. No solo doy la solución: enseño el proceso de pensamiento."
+                    }
+                }
+            },
+
+            // ── DISEÑO Y MULTIMEDIA ─────────────────────────────────────────────
+            design: {
+                label: "Diseño y Multimedia",
+                default: "Diseñador Creativo Senior con más de 20 años de experiencia",
+                children: {
+                    brand_designer: {
+                        label: "Diseñador de Marca / Brand Strategist Senior (20+ años)",
+                        prompt: "Diseñador de Marca y Brand Strategist Senior con más de 20 años de experiencia construyendo identidades de marca que conectan emocionalmente con sus audiencias y son coherentes en todos los touchpoints. Dominas el proceso de branding: investigación de mercado y competencia, definición de la personalidad de marca (Brand Archetypes), diseño del sistema de identidad visual (logotipo, paleta, tipografía, iconografía, fotografía, tono de voz) y las guías de marca (Brand Guidelines). Al trabajar en una marca, articulo primero el 'por qué' (el propósito) antes de diseñar el 'qué' (los activos visuales)."
+                    },
+                    video_editor: {
+                        label: "Editor de Video y Motion Designer Senior (20+ años)",
+                        prompt: "Editor de Video y Motion Designer Senior con más de 20 años de experiencia en postproducción audiovisual para publicidad, cine, series y contenido digital. Dominas Premiere Pro, DaVinci Resolve, After Effects y Cinema 4D. Al editar, pienso en el ritmo narrativo, la música como motor emocional, la paleta de color (color grading) y el impacto de cada transición en la atención del espectador. Al diseñar motion graphics, construyo sistemas visuales coherentes con la identidad de marca, optimizados para los formatos de entrega (broadcast, streaming, redes sociales)."
+                    },
+                    illustrator: {
+                        label: "Ilustrador Digital y Concept Artist Senior (20+ años)",
+                        prompt: "Ilustrador Digital y Concept Artist Senior con más de 20 años de experiencia creando arte para videojuegos, publicaciones, entretenimiento y branding. Domino múltiples estilos visuales: realismo, caricatura, flat design, pixel art y concept art de personajes y entornos. Al abordar un encargo, defino primero el brief visual (referencias de estilo, paleta cromática, audiencia objetivo y uso final), propongo bocetos alternativos antes del arte final y explico las decisiones creativas: composición, uso de la luz, psicología del color y coherencia con el universo narrativo del proyecto."
+                    }
+                }
+            },
+
+            // ── TRADUCCIÓN Y LOCALIZACIÓN ───────────────────────────────────────
+            translation: {
+                label: "Traducción y Localización",
+                default: "Traductor Profesional Senior con más de 20 años de experiencia",
+                children: {
+                    technical: {
+                        label: "Traductor Técnico Senior (Tecnología / Ciencia) (20+ años)",
+                        prompt: "Traductor Técnico Senior con más de 20 años de experiencia en la traducción especializada de documentación técnica, manuales de software, especificaciones de ingeniería y publicaciones científicas. Dominas la terminología técnica en inglés, español, francés y alemán, y utilizas herramientas CAT (Computer-Assisted Translation) como SDL Trados y memoQ para garantizar la consistencia terminológica. Al traducir, no solo traslado palabras: adapto el registro, el tono y la estructura al público objetivo del documento traducido, preservando la precisión técnica sin sacrificar la claridad."
+                    },
+                    localization: {
+                        label: "Especialista en Localización de Software y Apps (20+ años)",
+                        prompt: "Especialista en Localización de Software con más de 20 años de experiencia adaptando productos digitales (aplicaciones, SaaS, videojuegos) a mercados culturales y lingüísticos específicos. Más allá de la traducción, gestiono la internacionalización (i18n) del código (formatos de fecha, moneda, RTL para árabe/hebreo, pluralización), la adaptación cultural del contenido (colores, iconos, metáforas) y el proceso de QA de localización. Trabajo con herramientas como Phrase, Lokalise y Crowdin, y coordino equipos de traductores nativos en múltiples regiones."
+                    },
+                    literary: {
+                        label: "Traductor Literario Senior (20+ años)",
+                        prompt: "Traductor Literario Senior con más de 20 años de experiencia en la traducción de obras literarias (novela, poesía, teatro) del inglés, francés e italiano al español. Al traducir literatura, entiendo que mi trabajo es una reescritura creativa: preservo la voz del autor, el ritmo de la prosa, las figuras retóricas, los juegos de palabras y las referencias culturales, buscando equivalentes naturales en la lengua de destino. Cuando hay una tensión entre la fidelidad literal y la naturalidad del texto traducido, elijo siempre la naturalidad sin traicionar el espíritu del original."
+                    }
+                }
+            }
+        };
+
+        const INITIAL_SCHEMAS = [
+            "JSON", "Markdown", "HTML", "CSV", "Código Fuente",
+            "Tabla", "Lista de viñetas", "Texto Plano", "Mermaid Diagram", "SQL Query"
+        ];
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // ESTADO DE LA APLICACIÓN
+        // ─────────────────────────────────────────────────────────────────────────
+        let rolesData = JSON.parse(JSON.stringify(INITIAL_ROLES_DATA));
+        let parentRole = '';
+        let childRole = '';
+        let techStack = [];
+        let schemas = [...INITIAL_SCHEMAS];
+       
+        // --- Referencias DOM ---
+        const els = {
+            parentRole: document.getElementById('parentRole'),
+            childRole: document.getElementById('childRole'),
+            techStackContainer: document.getElementById('techStackContainer'),
+            tagInput: document.getElementById('tagInput'),
+            objective: document.getElementById('objective'),
+            techContext: document.getElementById('techContext'),
+            constraints: document.getElementById('constraints'),
+            inputData: document.getElementById('inputData'),
+            chainOfThought: document.getElementById('chainOfThought'),
+            schemaSelect: document.getElementById('schemaSelect'),
+            outputSchema: document.getElementById('outputSchema'),
+            examples: document.getElementById('examples'),
+            preview: document.getElementById('preview'),
+            btnDelParent: document.getElementById('btnDelParent'),
+            btnAddChild: document.getElementById('btnAddChild'),
+            btnDelChild: document.getElementById('btnDelChild'),
+            btnDelSchema: document.getElementById('btnDelSchema'),
+            parentInputContainer: document.getElementById('parentInputContainer'),
+            childInputContainer: document.getElementById('childInputContainer'),
+            schemaInputContainer: document.getElementById('schemaInputContainer'),
+            iconAddParent: document.getElementById('iconAddParent'),
+            iconAddChild: document.getElementById('iconAddChild'),
+            iconAddSchema: document.getElementById('iconAddSchema'),
+            newParentLabel: document.getElementById('newParentLabel'),
+            newChildLabel: document.getElementById('newChildLabel'),
+            newSchemaLabel: document.getElementById('newSchemaLabel')
+        };
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // INICIALIZACIÓN
+        // ─────────────────────────────────────────────────────────────────────────
+        function init() {
+            renderParentRoles();
+            renderSchemas();
+            attachListeners();
+            updateXML();
+            lucide.createIcons();
+        }
+
+        function attachListeners() {
+            ['objective', 'techContext', 'constraints', 'inputData', 'chainOfThought', 'outputSchema', 'examples'].forEach(id => {
+                els[id].addEventListener('input', updateXML);
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // RENDERIZADO DE UI
+        // ─────────────────────────────────────────────────────────────────────────
+        function renderParentRoles() {
+            const datalist = document.getElementById('parentRolesList');
+            datalist.innerHTML = '';
+            for (const [key, data] of Object.entries(rolesData)) {
+                datalist.innerHTML += `<option value="${data.label}"></option>`;
+            }
+            if (parentRole && rolesData[parentRole]) {
+                els.parentRole.value = rolesData[parentRole].label;
+            }
+            renderChildRoles();
+        }
+
+        function renderChildRoles() {
+            els.childRole.innerHTML = parentRole
+                ? '<option value="">Seleccionar...</option>'
+                : '<option value="">Seleccionar rol primero</option>';
+            els.childRole.disabled = !parentRole;
+           
+            if (parentRole && rolesData[parentRole]) {
+                for (const [key, child] of Object.entries(rolesData[parentRole].children)) {
+                    els.childRole.innerHTML += `<option value="${key}">${child.label}</option>`;
+                }
+                els.btnAddChild.disabled = false;
+                els.btnAddChild.classList.remove('opacity-30');
+                els.btnDelParent.classList.remove('hidden');
+            } else {
+                els.btnAddChild.disabled = true;
+                els.btnAddChild.classList.add('opacity-30');
+                els.btnDelParent.classList.add('hidden');
+            }
+            els.childRole.value = childRole;
+            childRole ? els.btnDelChild.classList.remove('hidden') : els.btnDelChild.classList.add('hidden');
+            updateXML();
+        }
+
+        function renderTechStack() {
+            els.techStackContainer.innerHTML = '';
+            techStack.forEach(tag => {
+                const div = document.createElement('div');
+                div.className = "flex items-center gap-2 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-md group transition-all";
+                div.innerHTML = `
+                    <span>${tag}</span>
+                    <button onclick="removeTag('${tag}')" class="text-emerald-500/50 hover:text-emerald-400 transition-colors">
+                        <i data-lucide="trash-2" class="w-3 h-3"></i>
+                    </button>
+                `;
+                els.techStackContainer.appendChild(div);
+            });
+            lucide.createIcons();
+            updateXML();
+        }
+
+        function renderSchemas() {
+            els.schemaSelect.innerHTML = '<option value="">Seleccionar formato común...</option>';
+            schemas.forEach(s => {
+                els.schemaSelect.innerHTML += `<option value="${s}">${s}</option>`;
+            });
+            const currentSchema = els.outputSchema.value;
+            if (schemas.includes(currentSchema)) {
+                els.schemaSelect.value = currentSchema;
+                els.btnDelSchema.classList.remove('hidden');
+            } else {
+                els.schemaSelect.value = '';
+                els.btnDelSchema.classList.add('hidden');
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // MANEJADORES DE EVENTOS
+        // ─────────────────────────────────────────────────────────────────────────
+        function handleParentChange() {
+            const val = els.parentRole.value;
+            parentRole = '';
+            for (const [key, data] of Object.entries(rolesData)) {
+                if (data.label === val) { parentRole = key; break; }
+            }
+            childRole = '';
+            renderChildRoles();
+            updateXML();
+        }
+
+        function handleChildChange() {
+            childRole = els.childRole.value;
+            childRole ? els.btnDelChild.classList.remove('hidden') : els.btnDelChild.classList.add('hidden');
+            updateXML();
+        }
+
+        function handleSchemaChange() {
+            const val = els.schemaSelect.value;
+            els.outputSchema.value = val;
+            val ? els.btnDelSchema.classList.remove('hidden') : els.btnDelSchema.classList.add('hidden');
+            updateXML();
+        }
+
+        function handleAddTag(e) {
+            if (e.key === 'Enter' && els.tagInput.value.trim()) {
+                const tag = els.tagInput.value.trim();
+                if (!techStack.includes(tag)) {
+                    techStack.push(tag);
+                    renderTechStack();
+                }
+                els.tagInput.value = '';
+            }
+        }
+
+        function removeTag(tag) {
+            techStack = techStack.filter(t => t !== tag);
+            renderTechStack();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // LÓGICA DE AGREGAR / ELIMINAR DINÁMICO
+        // ─────────────────────────────────────────────────────────────────────────
+
+        // Parent
+        function toggleAddParent() {
+            const isHidden = els.parentInputContainer.classList.contains('hidden');
+            if (isHidden) {
+                els.parentInputContainer.classList.remove('hidden');
+                els.parentRole.classList.add('hidden');
+                els.iconAddParent.setAttribute('data-lucide', 'x');
+                els.newParentLabel.focus();
+            } else {
+                els.parentInputContainer.classList.add('hidden');
+                els.parentRole.classList.remove('hidden');
+                els.iconAddParent.setAttribute('data-lucide', 'plus');
+            }
+            lucide.createIcons();
+        }
+
+        function addParentCategory() {
+            const val = els.newParentLabel.value.trim();
+            if (!val) return;
+            const id = val.toLowerCase().replace(/\s+/g, '_');
+            rolesData[id] = { label: val, default: val, children: {} };
+            parentRole = id;
+            childRole = '';
+            els.newParentLabel.value = '';
+            toggleAddParent();
+            renderParentRoles();
+        }
+
+        function deleteParentCategory() {
+            if (!parentRole) return;
+            delete rolesData[parentRole];
+            parentRole = '';
+            childRole = '';
+            els.parentRole.value = '';
+            renderParentRoles();
+            updateXML();
+        }
+
+        // Child
+        function toggleAddChild() {
+            if (!parentRole) return;
+            const isHidden = els.childInputContainer.classList.contains('hidden');
+            if (isHidden) {
+                els.childInputContainer.classList.remove('hidden');
+                els.childRole.classList.add('hidden');
+                els.iconAddChild.setAttribute('data-lucide', 'x');
+                els.newChildLabel.focus();
+            } else {
+                els.childInputContainer.classList.add('hidden');
+                els.childRole.classList.remove('hidden');
+                els.iconAddChild.setAttribute('data-lucide', 'plus');
+            }
+            lucide.createIcons();
+        }
+
+        function addChildSpeciality() {
+            const val = els.newChildLabel.value.trim();
+            if (!val || !parentRole) return;
+            const id = val.toLowerCase().replace(/\s+/g, '_');
+            rolesData[parentRole].children[id] = { label: val, prompt: val };
+            childRole = id;
+            els.newChildLabel.value = '';
+            toggleAddChild();
+            renderChildRoles();
+        }
+
+        function deleteChildSpeciality() {
+            if (!parentRole || !childRole) return;
+            delete rolesData[parentRole].children[childRole];
+            childRole = '';
+            renderChildRoles();
+        }
+
+        // Schema
+        function toggleAddSchema() {
+            const isHidden = els.schemaInputContainer.classList.contains('hidden');
+            if (isHidden) {
+                els.schemaInputContainer.classList.remove('hidden');
+                els.schemaSelect.classList.add('hidden');
+                els.iconAddSchema.setAttribute('data-lucide', 'x');
+                els.newSchemaLabel.focus();
+            } else {
+                els.schemaInputContainer.classList.add('hidden');
+                els.schemaSelect.classList.remove('hidden');
+                els.iconAddSchema.setAttribute('data-lucide', 'plus');
+            }
+            lucide.createIcons();
+        }
+
+        function addSchema() {
+            const val = els.newSchemaLabel.value.trim();
+            if (!val) return;
+            if (!schemas.includes(val)) schemas.push(val);
+            els.outputSchema.value = val;
+            els.newSchemaLabel.value = '';
+            toggleAddSchema();
+            renderSchemas();
+            updateXML();
+        }
+
+        function deleteSchema() {
+            const val = els.outputSchema.value;
+            schemas = schemas.filter(s => s !== val);
+            els.outputSchema.value = '';
+            renderSchemas();
+            updateXML();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // GENERACIÓN XML
+        // ─────────────────────────────────────────────────────────────────────────
+        function wrapTag(tag, content) {
+            if (!content || content.trim() === '') return '';
+            return `<${tag}>\n${content.trim()}\n</${tag}>\n\n`;
+        }
+
+        function formatList(list) {
+            if (list.length === 0) return '';
+            if (list.length === 1) return list[0];
+            const items = [...list];
+            const last = items.pop();
+            return items.join(', ') + ' y ' + last;
+        }
+
+        function updateXML() {
+            let xml = '<prompt_framework>\n\n';
+            let roleContent = '';
+            if (parentRole && rolesData[parentRole]) {
+                const parent = rolesData[parentRole];
+                const rolePrompt = childRole && parent.children[childRole]
+                    ? parent.children[childRole].prompt
+                    : parent.default;
+                roleContent = `Asume el rol de ${rolePrompt}.`;
+            } else if (els.parentRole.value && els.parentRole.value.trim() !== '') {
+                roleContent = `Asume el rol de ${els.parentRole.value.trim()}.`;
+            }
+            xml += wrapTag('system_role', roleContent);
+            xml += wrapTag('tech_stack', formatList(techStack));
+            const obj = els.objective.value;
+            if (obj) xml += `<task_definition>\n${obj.trim()}\n</task_definition>\n\n`;
+            xml += wrapTag('technical_context', els.techContext.value);
+            xml += wrapTag('input_data', els.inputData.value);
+            xml += wrapTag('constraints', els.constraints.value);
+            xml += wrapTag('chain_of_thought', els.chainOfThought.value);
+            xml += wrapTag('output_schema', els.outputSchema.value);
+            xml += wrapTag('examples', els.examples.value);
+            xml += '</prompt_framework>';
+
+            let rawXml = xml.replace(/\n{3,}/g, '\n\n').trim();
+            let escapedXml = rawXml
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            let styledXml = escapedXml.replace(/(&lt;\/?[\w_]+&gt;)/g, '<span style="color: #f97316;">$1</span>');
+            els.preview.innerHTML = styledXml;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // COPIAR AL PORTAPAPELES
+        // ─────────────────────────────────────────────────────────────────────────
+        async function handleCopy() {
+            const text = els.preview.innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> COPIADO`;
+                btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600', 'text-neutral-950');
+                btn.classList.add('bg-blue-500', 'hover:bg-blue-600', 'text-white');
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = `<i data-lucide="copy" class="w-3.5 h-3.5"></i> COPIAR PROMPT`;
+                    btn.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'text-white');
+                    btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600', 'text-neutral-950');
+                    lucide.createIcons();
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                alert('No se pudo copiar al portapapeles.');
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // LIMPIAR PROMPT
+        // ─────────────────────────────────────────────────────────────────────────
+        function handleClear() {
+            parentRole = '';
+            childRole = '';
+            techStack = [];
+
+            els.parentRole.value = '';
+            
+            ['parentInputContainer', 'childInputContainer', 'schemaInputContainer'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el && !el.classList.contains('hidden')) {
+                    el.classList.add('hidden');
+                }
+            });
+
+            els.iconAddParent.setAttribute('data-lucide', 'plus');
+            els.iconAddChild.setAttribute('data-lucide', 'plus');
+            els.iconAddSchema.setAttribute('data-lucide', 'plus');
+
+            els.parentRole.classList.remove('hidden');
+            els.childRole.classList.remove('hidden');
+            els.schemaSelect.classList.remove('hidden');
+
+            els.newParentLabel.value = '';
+            els.newChildLabel.value = '';
+            els.newSchemaLabel.value = '';
+
+            ['objective', 'techContext', 'constraints', 'inputData', 'chainOfThought', 'outputSchema', 'examples'].forEach(id => {
+                els[id].value = '';
+            });
+
+            renderParentRoles(); 
+            renderTechStack();
+            renderSchemas();
+            updateXML();
+            lucide.createIcons();
+
+            const btn = document.getElementById('clearBtn');
+            btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> LIMPIADO`;
+            lucide.createIcons();
+            setTimeout(() => {
+                btn.innerHTML = `<i data-lucide="trash-2" class="w-3.5 h-3.5"></i> LIMPIAR PROMPT`;
+                lucide.createIcons();
+            }, 1800);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
